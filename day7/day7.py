@@ -10,6 +10,7 @@ with open(INPUT) as infile:
     for i in range(minc, maxc):
         cost = 0
         for pos in positions:
+            # cost += abs(pos-i) # PART 1
             cost += (abs(pos-i) * (abs(pos-i) + 1)) / 2
         costs[i] = cost
     
