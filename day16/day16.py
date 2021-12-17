@@ -1,5 +1,6 @@
 from functools import reduce
 
+
 class Reader:
     
     H2B = {
@@ -33,7 +34,6 @@ class Reader:
         typeid = int(self.bininp[self.start+3:self.start+6], 2)
         self.start += 6        
         self.version_sum += int(version, 2)
-        
 
         if typeid == 4:
             val = self.read_type4_literal()
@@ -59,7 +59,7 @@ class Reader:
         num_packets = int(self.bininp[self.start:self.start+11], 2)
         self.start += 11
         packets = []
-        while(num_packets > 0):
+        while num_packets > 0:
             packets.append(self.read_packet())
             num_packets -= 1
         return self.process_packets(packets, typeid)
@@ -70,7 +70,7 @@ class Reader:
         self.start += 15
         packets = []
         max_read = self.start + total_length
-        while(self.start < max_read):
+        while self.start < max_read:
             packets.append(self.read_packet())
         return self.process_packets(packets, typeid)
        
@@ -93,14 +93,14 @@ class Reader:
     def read_type4_literal(self):
         # print("Reading Literal Packet: ", self.start)
         binlit = ""
-        while(True):
+        while True:
             five = self.bininp[self.start:self.start+5]
             if five[0] == "1":
                 binlit += five[1:5]
-                self.start+=5
+                self.start += 5
             elif five[0] == "0":
                 binlit += five[1:5]
-                self.start+=5
+                self.start += 5
                 break
             else:
                 print("ERROR!")
@@ -123,10 +123,11 @@ class Reader:
 # reader.read_packet()
 # print("PART 1: "+ str(reader.version_sum), 31)
 
+
 INPUT = "day16/day16.in"
 with open(INPUT) as infile:
-    hexline = infile.readline().rstrip()
-    reader = Reader(hexline)
+    hex_line = infile.readline().rstrip()
+    reader = Reader(hex_line)
     result = reader.read_packet()
-    print("PART 1: "+ str(reader.version_sum))
-    print("PART 2: "+ str(result))
+    print("PART 1: " + str(reader.version_sum))
+    print("PART 2: " + str(result))
